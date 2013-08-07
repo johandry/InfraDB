@@ -1,0 +1,39 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  ip: MyString
+  fully_supported: false
+  middleware_audit: false
+  domain: MyString
+  cpu: 1
+  memory: 1
+  storage: MyString
+  added_on: 2013-08-07
+  ticket: MyString
+  environment_id: 
+  network_id: 
+  team_id: 
+  os_id: 
+  use_id: 
+  datacenter_id: 
+  support_id: 
+
+two:
+  name: MyString
+  ip: MyString
+  fully_supported: false
+  middleware_audit: false
+  domain: MyString
+  cpu: 1
+  memory: 1
+  storage: MyString
+  added_on: 2013-08-07
+  ticket: MyString
+  environment_id: 
+  network_id: 
+  team_id: 
+  os_id: 
+  use_id: 
+  datacenter_id: 
+  support_id: 

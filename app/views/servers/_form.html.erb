@@ -1,0 +1,85 @@
+<%= form_for(@server) do |f| %>
+  <% if @server.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@server.errors.count, "error") %> prohibited this server from being saved:</h2>
+
+      <ul>
+      <% @server.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :ip %><br>
+    <%= f.text_field :ip %>
+  </div>
+  <div class="field">
+    <%= f.label :fully_supported %><br>
+    <%= f.check_box :fully_supported %>
+  </div>
+  <div class="field">
+    <%= f.label :middleware_audit %><br>
+    <%= f.check_box :middleware_audit %>
+  </div>
+  <div class="field">
+    <%= f.label :domain %><br>
+    <%= f.text_field :domain %>
+  </div>
+  <div class="field">
+    <%= f.label :cpu %><br>
+    <%= f.number_field :cpu %>
+  </div>
+  <div class="field">
+    <%= f.label :memory %><br>
+    <%= f.number_field :memory %>
+  </div>
+  <div class="field">
+    <%= f.label :storage %><br>
+    <%= f.text_field :storage %>
+  </div>
+  <div class="field">
+    <%= f.label :added_on %><br>
+    <%= f.date_select :added_on %>
+  </div>
+  <div class="field">
+    <%= f.label :ticket %><br>
+    <%= f.text_field :ticket %>
+  </div>
+  <div class="field">
+    <%= f.label :environment %><br>
+    <%= f.text_field :environment %>
+  </div>
+  <div class="field">
+    <%= f.label :network %><br>
+    <%= f.text_field :network %>
+  </div>
+  <div class="field">
+    <%= f.label :team %><br>
+    <%= f.text_field :team %>
+  </div>
+  <div class="field">
+    <%= f.label :os %><br>
+    <%= f.text_field :os %>
+  </div>
+  <div class="field">
+    <%= f.label :use %><br>
+    <%= f.text_field :use %>
+  </div>
+  <div class="field">
+    <%= f.label :datacenter %><br>
+    <%= f.text_field :datacenter %>
+  </div>
+  <div class="field">
+    <%= f.label :support %><br>
+    <%= f.text_field :support %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,59 @@
+<h1>Listing servers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Ip</th>
+      <th>Fully supported</th>
+      <th>Middleware audit</th>
+      <th>Domain</th>
+      <th>Cpu</th>
+      <th>Memory</th>
+      <th>Storage</th>
+      <th>Added on</th>
+      <th>Ticket</th>
+      <th>Environment</th>
+      <th>Network</th>
+      <th>Team</th>
+      <th>Os</th>
+      <th>Use</th>
+      <th>Datacenter</th>
+      <th>Support</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @servers.each do |server| %>
+      <tr>
+        <td><%= server.name %></td>
+        <td><%= server.ip %></td>
+        <td><%= server.fully_supported %></td>
+        <td><%= server.middleware_audit %></td>
+        <td><%= server.domain %></td>
+        <td><%= server.cpu %></td>
+        <td><%= server.memory %></td>
+        <td><%= server.storage %></td>
+        <td><%= server.added_on %></td>
+        <td><%= server.ticket %></td>
+        <td><%= server.environment.name if server.environment %></td>
+        <td><%= server.network.name if server.network %></td>
+        <td><%= server.team.name if server.team %></td>
+        <td><%= server.os.name if server.os %></td>
+        <td><%= server.use.name if server.use %></td>
+        <td><%= server.datacenter.name if server.datacenter %></td>
+        <td><%= server.support.name if server.support %></td>
+        <td><%= link_to 'Show', server %></td>
+        <td><%= link_to 'Edit', edit_server_path(server) %></td>
+        <td><%= link_to 'Destroy', server, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Server', new_server_path %>

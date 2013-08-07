@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @application.name %>
+</p>
+
+<p>
+  <strong>Ci name:</strong>
+  <%= @application.ci_name %>
+</p>
+
+<p>
+  <strong>Live:</strong>
+  <%= @application.live %>
+</p>
+
+<p>
+  <strong>Added on:</strong>
+  <%= @application.added_on %>
+</p>
+
+<p>
+  <strong>Ticket:</strong>
+  <%= @application.ticket %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @application.url %>
+</p>
+
+<p>
+  <strong>Team:</strong>
+  <%= @application.team.name if @application.team %>
+</p>
+
+<p>
+  <strong>Server:</strong>
+  <%= @application.server.name if @application.server %>
+</p>
+
+<p>
+  <strong>Environment:</strong>
+  <%= @application.environment.name if @application.environment %>
+</p>
+
+<p>
+  <strong>Business:</strong>
+  <%= @application.business.name if @application.business %>
+</p>
+
+<%= link_to 'Edit', edit_application_path(@application) %> |
+<%= link_to 'Back', applications_path %>

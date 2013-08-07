@@ -1,0 +1,89 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @server.name %>
+</p>
+
+<p>
+  <strong>Ip:</strong>
+  <%= @server.ip %>
+</p>
+
+<p>
+  <strong>Fully supported:</strong>
+  <%= @server.fully_supported %>
+</p>
+
+<p>
+  <strong>Middleware audit:</strong>
+  <%= @server.middleware_audit %>
+</p>
+
+<p>
+  <strong>Domain:</strong>
+  <%= @server.domain %>
+</p>
+
+<p>
+  <strong>Cpu:</strong>
+  <%= @server.cpu %>
+</p>
+
+<p>
+  <strong>Memory:</strong>
+  <%= @server.memory %>
+</p>
+
+<p>
+  <strong>Storage:</strong>
+  <%= @server.storage %>
+</p>
+
+<p>
+  <strong>Added on:</strong>
+  <%= @server.added_on %>
+</p>
+
+<p>
+  <strong>Ticket:</strong>
+  <%= @server.ticket %>
+</p>
+
+<p>
+  <strong>Environment:</strong>
+  <%= @server.environment.name if @server.environment %>
+</p>
+
+<p>
+  <strong>Network:</strong>
+  <%= @server.network.name if @server.network %>
+</p>
+
+<p>
+  <strong>Team:</strong>
+  <%= @server.team.name if @server.team %>
+</p>
+
+<p>
+  <strong>Os:</strong>
+  <%= @server.os.name if @server.os %>
+</p>
+
+<p>
+  <strong>Use:</strong>
+  <%= @server.use.name if @server.use %>
+</p>
+
+<p>
+  <strong>Datacenter:</strong>
+  <%= @server.datacenter.name if @server.datacenter %>
+</p>
+
+<p>
+  <strong>Support:</strong>
+  <%= @server.support.name if @server.support %>
+</p>
+
+<%= link_to 'Edit', edit_server_path(@server) %> |
+<%= link_to 'Back', servers_path %>

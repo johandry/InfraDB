@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @datacenter.name %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @datacenter.address %>
+</p>
+
+<%= link_to 'Edit', edit_datacenter_path(@datacenter) %> |
+<%= link_to 'Back', datacenters_path %>

@@ -1,0 +1,45 @@
+<h1>Listing applications</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Ci name</th>
+      <th>Live</th>
+      <th>Added on</th>
+      <th>Ticket</th>
+      <th>Url</th>
+      <th>Team</th>
+      <th>Server</th>
+      <th>Environment</th>
+      <th>Business</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @applications.each do |application| %>
+      <tr>
+        <td><%= application.name %></td>
+        <td><%= application.ci_name %></td>
+        <td><%= application.live %></td>
+        <td><%= application.added_on %></td>
+        <td><%= application.ticket %></td>
+        <td><%= application.url %></td>
+        <td><%= application.team.name if application.team %></td>
+        <td><%= application.server.name if application.server %></td>
+        <td><%= application.environment.name if application.environment %></td>
+        <td><%= application.business.name if application.business %></td>
+        <td><%= link_to 'Show', application %></td>
+        <td><%= link_to 'Edit', edit_application_path(application) %></td>
+        <td><%= link_to 'Destroy', application, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Application', new_application_path %>
