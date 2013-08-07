@@ -1,0 +1,213 @@
+# Updates:
+cd Development/
+./updateRoR.sh
+
+# Clone
+git clone ssh://johandry.amador@openge.ge.com/gitroot/psi
+
+# Update
+git pull
+
+# Initial creation
+cd /home/johandry/Development/startupPSI
+mv ../PSI .				# If there was a previous version
+rake 
+mv PSI ..
+
+# Update DB from CSV
+# TODO
+
+# Init Git
+git init
+git add .
+git commit -m "First commit"
+git remote add origin ssh://johandry.amador@openge.ge.com/gitroot/psi
+git push -u origin master
+
+# Push changes
+git commit -a -m " "
+git push -u origin master
+
+# Adding Bootstrap
+vim Gemfile
+# Open Gemfile to add the line:
+gem 'bootstrap-sass'
+
+vim config/application.rb
+# Open config/application.rb to add the line:
+config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
+bundle
+
+vim app/assets/javascripts/application.js
+# Open app/assets/javascripts/application.js to add before require_tree line:
+//= require bootstrap
+
+mv app/assets/stylesheets/application.css app/assets/stylesheets/application.css.scss
+touch app/assets/stylesheets/bootstrap_and_overrides.css.scss
+
+vim app/assets/stylesheets/bootstrap_and_overrides.css.scss
+# Open app/assets/stylesheets/bootstrap_and_overrides.css.scss to add the lines:
+@import "bootstrap";
+body { padding-top: 60px; }
+@import "bootstrap-responsive";
+
+vim app/assets/stylesheets/application.css.scss
+# Open app/assets/stylesheets/application.css.scss to add at the end:
+.content {
+  background-color: #eee;
+  padding: 20px;
+  margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+  -webkit-border-radius: 0 0 6px 6px;
+  -moz-border-radius: 0 0 6px 6px;
+  border-radius: 0 0 6px 6px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+vim app/views/layouts/application.html.erb
+# Open app/views/layouts/application.html.erb to replace the content by:
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Platform Services Infrastructure Inventory" %></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <%= stylesheet_link_tag "application", :media => "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+    <%= yield(:head) %>
+  </head>
+  <body>
+    <header class="navbar navbar-fixed-top">
+      <nav class="navbar-inner">
+        <div class="container">
+          <%= render 'layouts/navigation' %>
+        </div>
+      </nav>
+    </header>
+    <div id="main" role="main">
+      <div class="container">
+        <div class="content">
+           <div class="row">
+            <div class="span12">
+              <%= render 'layouts/messages' %>
+              <%= yield %>
+            </div>
+          </div>
+          <footer>
+          </footer>
+        </div>
+      </div> <!--! end of .container -->
+    </div> <!--! end of #main -->
+  </body>
+</html>
+
+touch app/views/layouts/_navigation.html.erb
+
+vim app/views/layouts/_navigation.html.erb
+# Open app/views/layouts/_navigation.html.erb to add:
+<%= link_to "Home", root_path, :class => 'brand' %>
+
+touch app/views/layouts/_messages.html.erb
+vim app/views/layouts/_messages.html.erb
+# Open app/views/layouts/_messages.html.erb to add:
+<% flash.each do |name, msg| %>
+  <% if msg.is_a?(String) %>
+    <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+      <a class="close" data-dismiss="alert">&#215;</a>
+      <%= content_tag :div, msg, :id => "flash_#{name}" %>
+    </div>
+  <% end %>
+<% end %>
+
+vim Gemfile
+# Open Gemfile to add:
+gem 'simple_form'
+
+bundle
+rails generate simple_form:install --bootstrap
+
+# Adding Twitter bootstrap to have themes
+vim Gemfile
+# Open Gemfile to add this inline inside the assets group
+gem 'therubyracer'
+gem 'less-rails'
+gem 'twitter-bootstrap-rails'
+
+bundle
+rails generate bootstrap:install less
+
+# Change Services views
+
+rails g bootstrap:themed services -f
+
+vim app/views/services/index.html.erb 
+# Remove columns for id, description, instructions and created at
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:instructions) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+
+        <td><%= link_to service.id, service_path(service) %></td>
+        <td><%= service.description %></td>
+        <td><%= service.instructions %></td>
+        <td><%=l service.created_at %></td>	  
+# Add link to service and team
+        <td><%= link_to service.name, service_path(service) %></td>
+        <td><%= link_to( service.team.name, team_path(service.team)) if service.team %>&nbsp;</td>		
+
+vim app/views/services/_form.html.erb 
+# Replace team imput to display all the teams
+  <%= f.association :team %>
+
+vim 
+# Change way team is displayed
+  <dd><%= link_to( @service.team.name, team_path(@service.team)) if @service.team %>&nbsp;</dd>
+
+git commit -a -m "Adding Twitter Bootstrap and Simple Form. Theme Services"
+git push -u origin master
+
+# Update the navigation bar to include all the objects
+
+vim app/views/layouts/_navigation.html.erb
+#Delete all and add this content
+<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+</a>
+
+<%= link_to "Home", root_path, :class => 'brand' %>
+<div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class="divider-vertical"></li>
+          <li><%= link_to "Servers", servers_path %></li>
+          <li class="divider-vertical"></li>
+          <li><%= link_to "Applications", applications_path %></li>
+          <li class="divider-vertical"></li>
+          <li><%= link_to "Services", services_path %></li>
+          <li class="divider-vertical"></li>
+          <li><%= link_to "Businesses", businesses_path %></li>
+          <li class="divider-vertical"></li>
+          <li><%= link_to "Datacenters", datacenters_path %></li>
+          <li class="divider-vertical"></li>
+          <li><%= link_to "Employees", employees_path %></li>
+          <li class="divider-vertical"></li>
+          <li><%= link_to "Supports", supports_path %></li>
+          <li class="divider-vertical"></li>
+          <li><%= link_to "Teams", teams_path %></li>
+          <li class="divider-vertical"></li>
+        </ul>
+        <form class="navbar-search pull-left">
+          <input type="text" class="search-query" placeholder="Search">
+        </form>
+</div>
+
+git add .
+git commit -m "Update the navigation bar to include all the objects"
+git push -u origin master
