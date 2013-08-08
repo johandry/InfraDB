@@ -10,6 +10,7 @@ class BusinessesController < ApplicationController
   # GET /businesses/1
   # GET /businesses/1.json
   def show
+    @applications = Application.find_all_by_business_id(@business.id)
   end
 
   # GET /businesses/new
