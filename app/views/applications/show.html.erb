@@ -1,54 +1,39 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Application -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @application.name %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @application.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:ci_name) %>:</strong></dt>
+  <dd><%= @application.ci_name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:live) %>:</strong></dt>
+  <dd><%= @application.live %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:added_on) %>:</strong></dt>
+  <dd><%= @application.added_on %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:ticket) %>:</strong></dt>
+  <dd><%= @application.ticket %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:url) %>:</strong></dt>
+  <dd><%= link_to( @application.url, @application.url ) if @application.url %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:team_id) %>:</strong></dt>
+  <dd><%= link_to( @application.team.name, team_path(@application.team) ) if @application.team %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:server_id) %>:</strong></dt>
+  <dd><%= link_to( @application.server.name, server_path(@application.server) ) if @application.server %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:environment_id) %>:</strong></dt>
+  <dd><%= @application.environment.name if @application.environment %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:business_id) %>:</strong></dt>
+  <dd><%= link_to( @application.business.name, business_path(@application.business) ) if @application.business %></dd>
+</dl>
 
-<p>
-  <strong>Ci name:</strong>
-  <%= @application.ci_name %>
-</p>
-
-<p>
-  <strong>Live:</strong>
-  <%= @application.live %>
-</p>
-
-<p>
-  <strong>Added on:</strong>
-  <%= @application.added_on %>
-</p>
-
-<p>
-  <strong>Ticket:</strong>
-  <%= @application.ticket %>
-</p>
-
-<p>
-  <strong>Url:</strong>
-  <%= @application.url %>
-</p>
-
-<p>
-  <strong>Team:</strong>
-  <%= @application.team.name if @application.team %>
-</p>
-
-<p>
-  <strong>Server:</strong>
-  <%= @application.server.name if @application.server %>
-</p>
-
-<p>
-  <strong>Environment:</strong>
-  <%= @application.environment.name if @application.environment %>
-</p>
-
-<p>
-  <strong>Business:</strong>
-  <%= @application.business.name if @application.business %>
-</p>
-
-<%= link_to 'Edit', edit_application_path(@application) %> |
-<%= link_to 'Back', applications_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              applications_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_application_path(@application), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              application_path(@application),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

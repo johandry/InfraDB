@@ -1,45 +1,44 @@
-<h1>Listing applications</h1>
-
-<table>
+<%- model_class = Application -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Ci name</th>
-      <th>Live</th>
-      <th>Added on</th>
-      <th>Ticket</th>
-      <th>Url</th>
-      <th>Team</th>
-      <th>Server</th>
-      <th>Environment</th>
-      <th>Business</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:ci_name) %></th>
+      <th><%= model_class.human_attribute_name(:live) %></th>
+      <th><%= model_class.human_attribute_name(:url) %></th>
+      <th><%= model_class.human_attribute_name(:server_id) %></th>
+      <th><%= model_class.human_attribute_name(:environment_id) %></th>
+      <th><%= model_class.human_attribute_name(:business_id) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @applications.each do |application| %>
       <tr>
-        <td><%= application.name %></td>
+        <td><%= link_to application.name, application_path(application) %></td>
         <td><%= application.ci_name %></td>
         <td><%= application.live %></td>
-        <td><%= application.added_on %></td>
-        <td><%= application.ticket %></td>
-        <td><%= application.url %></td>
-        <td><%= application.team.name if application.team %></td>
-        <td><%= application.server.name if application.server %></td>
+        <td><%= link_to( "URL", application.url ) if application.url %></td>
+        <td><%= link_to( application.server.name, server_path(application.server) ) if application.server %></td>
         <td><%= application.environment.name if application.environment %></td>
-        <td><%= application.business.name if application.business %></td>
-        <td><%= link_to 'Show', application %></td>
-        <td><%= link_to 'Edit', edit_application_path(application) %></td>
-        <td><%= link_to 'Destroy', application, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to( application.business.name, business_path(application.business) ) if application.business %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_application_path(application), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      application_path(application),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Application', new_application_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_application_path,
+            :class => 'btn btn-primary' %>
