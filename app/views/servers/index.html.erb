@@ -1,59 +1,44 @@
-<h1>Listing servers</h1>
-
-<table>
+<%- model_class = Server -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Ip</th>
-      <th>Fully supported</th>
-      <th>Middleware audit</th>
-      <th>Domain</th>
-      <th>Cpu</th>
-      <th>Memory</th>
-      <th>Storage</th>
-      <th>Added on</th>
-      <th>Ticket</th>
-      <th>Environment</th>
-      <th>Network</th>
-      <th>Team</th>
-      <th>Os</th>
-      <th>Use</th>
-      <th>Datacenter</th>
-      <th>Support</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:ip) %></th>
+      <th><%= model_class.human_attribute_name(:environment_id) %></th>
+      <th><%= model_class.human_attribute_name(:network_id) %></th>
+      <th><%= model_class.human_attribute_name(:os_id) %></th>
+      <th><%= model_class.human_attribute_name(:use_id) %></th>
+      <th><%= model_class.human_attribute_name(:datacenter_id) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @servers.each do |server| %>
       <tr>
-        <td><%= server.name %></td>
+        <td><%= link_to server.name, server_path(server) %></td>
         <td><%= server.ip %></td>
-        <td><%= server.fully_supported %></td>
-        <td><%= server.middleware_audit %></td>
-        <td><%= server.domain %></td>
-        <td><%= server.cpu %></td>
-        <td><%= server.memory %></td>
-        <td><%= server.storage %></td>
-        <td><%= server.added_on %></td>
-        <td><%= server.ticket %></td>
-        <td><%= server.environment.name if server.environment %></td>
-        <td><%= server.network.name if server.network %></td>
-        <td><%= server.team.name if server.team %></td>
-        <td><%= server.os.name if server.os %></td>
-        <td><%= server.use.name if server.use %></td>
-        <td><%= server.datacenter.name if server.datacenter %></td>
-        <td><%= server.support.name if server.support %></td>
-        <td><%= link_to 'Show', server %></td>
-        <td><%= link_to 'Edit', edit_server_path(server) %></td>
-        <td><%= link_to 'Destroy', server, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= server.environment.name if server.environment %>&nbsp;</td>
+        <td><%= server.network.name if server.network %>&nbsp;</td>
+        <td><%= server.os.name if server.os %>&nbsp;</td>
+        <td><%= server.use.name if server.use %>&nbsp;</td>
+        <td><%= server.datacenter.name if server.datacenter %>&nbsp;</td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_server_path(server), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      server_path(server),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Server', new_server_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_server_path,
+            :class => 'btn btn-primary' %>

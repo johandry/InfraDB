@@ -1,89 +1,53 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Server -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @server.name %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @server.name %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:ip) %>:</strong></dt>
+  <dd><%= @server.ip %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:fully_supported) %>:</strong></dt>
+  <dd><%= @server.fully_supported %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:middleware_audit) %>:</strong></dt>
+  <dd><%= @server.middleware_audit %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:domain) %>:</strong></dt>
+  <dd><%= @server.domain %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:cpu) %>:</strong></dt>
+  <dd><%= @server.cpu %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:memory) %>:</strong></dt>
+  <dd><%= @server.memory %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:storage) %>:</strong></dt>
+  <dd><%= @server.storage %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:added_on) %>:</strong></dt>
+  <dd><%= @server.added_on %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:ticket) %>:</strong></dt>
+  <dd><%= @server.ticket %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:environment_id) %>:</strong></dt>
+  <dd><%= @server.environment.name if @server.environment %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:network_id) %>:</strong></dt>
+  <dd><%= @server.network.name if @server.network %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:team_id) %>:</strong></dt>
+  <dd><%= link_to( @server.team.name, server_path(@server.team_id)) if @server.team %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:os_id) %>:</strong></dt>
+  <dd><%= @server.os.name if @server.os %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:use_id) %>:</strong></dt>
+  <dd><%= @server.use.name if @server.use %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:datacenter_id) %>:</strong></dt>
+  <dd><%= link_to( @server.datacenter.name, datacenter_path(@server.datacenter_id)) if @server.datacenter %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:support_id) %>:</strong></dt>
+  <dd><%= link_to( @server.support.name, support_path(@server.support_id)) if @server.support %>&nbsp;</dd>
+</dl>
 
-<p>
-  <strong>Ip:</strong>
-  <%= @server.ip %>
-</p>
-
-<p>
-  <strong>Fully supported:</strong>
-  <%= @server.fully_supported %>
-</p>
-
-<p>
-  <strong>Middleware audit:</strong>
-  <%= @server.middleware_audit %>
-</p>
-
-<p>
-  <strong>Domain:</strong>
-  <%= @server.domain %>
-</p>
-
-<p>
-  <strong>Cpu:</strong>
-  <%= @server.cpu %>
-</p>
-
-<p>
-  <strong>Memory:</strong>
-  <%= @server.memory %>
-</p>
-
-<p>
-  <strong>Storage:</strong>
-  <%= @server.storage %>
-</p>
-
-<p>
-  <strong>Added on:</strong>
-  <%= @server.added_on %>
-</p>
-
-<p>
-  <strong>Ticket:</strong>
-  <%= @server.ticket %>
-</p>
-
-<p>
-  <strong>Environment:</strong>
-  <%= @server.environment.name if @server.environment %>
-</p>
-
-<p>
-  <strong>Network:</strong>
-  <%= @server.network.name if @server.network %>
-</p>
-
-<p>
-  <strong>Team:</strong>
-  <%= @server.team.name if @server.team %>
-</p>
-
-<p>
-  <strong>Os:</strong>
-  <%= @server.os.name if @server.os %>
-</p>
-
-<p>
-  <strong>Use:</strong>
-  <%= @server.use.name if @server.use %>
-</p>
-
-<p>
-  <strong>Datacenter:</strong>
-  <%= @server.datacenter.name if @server.datacenter %>
-</p>
-
-<p>
-  <strong>Support:</strong>
-  <%= @server.support.name if @server.support %>
-</p>
-
-<%= link_to 'Edit', edit_server_path(@server) %> |
-<%= link_to 'Back', servers_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              servers_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_server_path(@server), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              server_path(@server),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

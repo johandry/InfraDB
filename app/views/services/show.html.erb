@@ -13,7 +13,7 @@
   <dt><strong><%= model_class.human_attribute_name(:instructions) %>:</strong></dt>
   <dd><%= @service.instructions %></dd>
   <dt><strong><%= model_class.human_attribute_name(:team_id) %>:</strong></dt>
-  <dd><%= link_to( @service.team.name, team_path(@service.team)) if @service.team %>&nbsp;</dd>
+  <dd><%= link_to( @service.team.name, team_path(@service.team_id)) if @service.team %>&nbsp;</dd>
 </dl>
 
 <div class="form-actions">
