@@ -10,6 +10,7 @@ class DatacentersController < ApplicationController
   # GET /datacenters/1
   # GET /datacenters/1.json
   def show
+    @servers = Server.find_all_by_datacenter_id(@datacenter.id)
   end
 
   # GET /datacenters/new

@@ -10,6 +10,7 @@ class SupportsController < ApplicationController
   # GET /supports/1
   # GET /supports/1.json
   def show
+    @servers = Server.find_all_by_support_id(@support.id)
   end
 
   # GET /supports/new

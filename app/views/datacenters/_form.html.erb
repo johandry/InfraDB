@@ -1,25 +1,9 @@
-<%= form_for(@datacenter) do |f| %>
-  <% if @datacenter.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@datacenter.errors.count, "error") %> prohibited this datacenter from being saved:</h2>
-
-      <ul>
-      <% @datacenter.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :address %><br>
-    <%= f.text_field :address %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+<%= simple_form_for @datacenter, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :name %>
+  <%= f.input :address %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                datacenters_path, :class => 'btn' %>
   </div>
 <% end %>

@@ -1,24 +1,58 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Team -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <strong>Sso:</strong>
-  <%= @team.sso %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:sso) %>:</strong></dt>
+  <dd><%= @team.sso %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @team.name %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
+  <dd><%= @team.email %>&nbsp;</dd>
+  <dt><strong><%= model_class.human_attribute_name(:url) %>:</strong></dt>
+  <dd><%= @team.url %>&nbsp;</dd>
+  <dt><strong>Servers:</strong></dt>
+  <dd>
+    <ul>
+      <% if @servers != nil %>
+        <% @servers.each do |svr| %>
+        <li><%= link_to svr.name, server_path(svr)  %></li>
+        <% end %>
+      <% end %>
+    </ul>&nbsp;
+  </dd>
+  <dt><strong>Applications:</strong></dt>
+  <dd>
+    <ul>
+      <% if @applications != nil %>
+        <% @applications.each do |app| %>
+        <li><%= link_to app.name, application_path(app)  %></li>
+        <% end %>
+      <% end %>
+    </ul>&nbsp;
+  </dd>
+  <dt><strong>Services:</strong></dt>
+  <dd>
+    <ul>
+      <% if @services != nil %>
+        <% @services.each do |svc| %>
+        <li><%= link_to svc.name, service_path(svc)  %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </dd>
 
-<p>
-  <strong>Name:</strong>
-  <%= @team.name %>
-</p>
+</dl>
 
-<p>
-  <strong>Email:</strong>
-  <%= @team.email %>
-</p>
-
-<p>
-  <strong>Url:</strong>
-  <%= @team.url %>
-</p>
-
-<%= link_to 'Edit', edit_team_path(@team) %> |
-<%= link_to 'Back', teams_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              teams_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_team_path(@team), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              team_path(@team),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>
