@@ -1,4 +1,4 @@
-# Updates:
+# Gem Updates:
 cd Development/
 ./updateRoR.sh
 
@@ -7,6 +7,28 @@ git clone ssh://johandry.amador@openge.ge.com/gitroot/psi
 
 # Update
 git pull
+
+# Commit
+
+git add .
+git commit -m " "
+git push -u origin master
+
+# Other git commands:
+# View commit history
+git log
+git log --graph --oneline --decorate --all
+# View Status (-s summary)
+git status -s
+# View differences between modified and in repo
+git diff
+git diff HEAD
+git diff --cached
+git diff HEAD --stat
+git diff --stat master
+# Uncommit a file
+git reset HEAD -- <file>
+
 
 # Initial creation
 cd /home/johandry/Development/startupPSI
@@ -24,9 +46,8 @@ git commit -m "First commit"
 git remote add origin ssh://johandry.amador@openge.ge.com/gitroot/psi
 git push -u origin master
 
-# Push changes
-git commit -a -m " "
-git push -u origin master
+git config --global user.name "Johandry Amador"
+git config --global user.email johandry.amador@ge.com
 
 # Adding Bootstrap
 vim Gemfile
@@ -146,7 +167,7 @@ rails generate bootstrap:install less
 rails g bootstrap:themed services -f
 
 vim app/views/services/index.html.erb 
-# Remove columns for id, description, instructions and created at
+# Remove columns for id and other attributes not required in the index list
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:description) %></th>
       <th><%= model_class.human_attribute_name(:instructions) %></th>
@@ -156,17 +177,17 @@ vim app/views/services/index.html.erb
         <td><%= service.description %></td>
         <td><%= service.instructions %></td>
         <td><%=l service.created_at %></td>	  
-# Add link to service and team
+# Add links to associated objects
         <td><%= link_to service.name, service_path(service) %></td>
         <td><%= link_to( service.team.name, team_path(service.team)) if service.team %>&nbsp;</td>		
 
 vim app/views/services/_form.html.erb 
-# Replace team imput to display all the teams
+# Replace the input to display for associations
   <%= f.association :team %>
 
-vim 
-# Change way team is displayed
-  <dd><%= link_to( @service.team.name, team_path(@service.team)) if @service.team %>&nbsp;</dd>
+vim app/views/services/show.html.erb  
+# Change way it is displayed
+  <dd><%= link_to( @service.team.name, team_path(@service.team_id)) if @service.team %>&nbsp;</dd>
 
 git commit -a -m "Adding Twitter Bootstrap and Simple Form. Theme Services"
 git push -u origin master
@@ -210,4 +231,202 @@ vim app/views/layouts/_navigation.html.erb
 
 git add .
 git commit -m "Update the navigation bar to include all the objects"
+git push -u origin master
+
+==================================================================================
+
+rails g bootstrap:themed servers -f
+
+vim app/views/servers/index.html.erb 
+# Remove columns for id and other attributes not required in the index list
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:domain) %></th>	  
+      <th><%= model_class.human_attribute_name(:fully_supported) %></th>
+      <th><%= model_class.human_attribute_name(:middleware_audit) %></th>
+      <th><%= model_class.human_attribute_name(:cpu) %></th>
+      <th><%= model_class.human_attribute_name(:memory) %></th> 
+      <th><%= model_class.human_attribute_name(:storage) %></th>
+      <th><%= model_class.human_attribute_name(:team_id) %></th>	  
+      <th><%= model_class.human_attribute_name(:added_on) %></th>	  
+      <th><%= model_class.human_attribute_name(:ticket) %></th>
+      <th><%= model_class.human_attribute_name(:network_id) %></th>
+      <th><%= model_class.human_attribute_name(:support_id) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+	  
+        <td><%= link_to server.id, server_path(server) %></td>
+       <td><%= server.domain %></td>		
+        <td><%= server.fully_supported %></td>
+        <td><%= server.middleware_audit %></td>	
+        <td><%= server.cpu %></td>
+        <td><%= server.memory %></td>		
+        <td><%= server.storage %></td>
+        <td><%= server.team.name if server.team %>&nbsp;</td>		
+        <td><%= server.added_on %></td>		
+        <td><%= server.ticket %></td>		
+        <td><%= server.support_id %></td>
+        <td><%=l server.created_at %></td>
+
+# Add links to associated objects
+        <td><%= link_to server.name, server_path(server) %></td>
+
+        <td><%= server.environment.name if server.environment %>&nbsp;</td>
+        <td><%= server.network.name if server.network %>&nbsp;</td>
+        <td><%= server.team.name if server.team %>&nbsp;</td>
+        <td><%= server.os.name if server.os %>&nbsp;</td>
+        <td><%= server.use.name if server.use %>&nbsp;</td>
+        <td><%= server.datacenter.name if server.datacenter %>&nbsp;</td>	
+		
+vim app/views/servers/_form.html.erb 
+# Replace the input to display for associations
+  <%= f.association :environment %>
+  <%= f.association :network %>
+  <%= f.association :team %>
+  <%= f.association :os %>
+  <%= f.association :use %>
+  <%= f.association :datacenter %>
+  <%= f.association :support %>
+
+vim app/views/servers/show.html.erb 
+# Change way it is displayed
+  <dd><%= @server.name %>&nbsp;</dd>
+  <dd><%= @server.ip %>&nbsp;</dd>
+  <dd><%= @server.fully_supported %>&nbsp;</dd>
+  <dd><%= @server.middleware_audit %>&nbsp;</dd>
+  <dd><%= @server.domain %>&nbsp;</dd>
+  <dd><%= @server.cpu %>&nbsp;</dd>
+  <dd><%= @server.memory %>&nbsp;</dd>
+  <dd><%= @server.storage %>&nbsp;</dd>
+  <dd><%= @server.added_on %>&nbsp;</dd>
+  <dd><%= @server.ticket %>&nbsp;</dd>
+  <dd><%= @server.environment.name if @server.environment %>&nbsp;</dd>
+  <dd><%= @server.network.name if @server.network %>&nbsp;</dd>
+  <dd><%= link_to( @server.team.name, server_path(@server.team_id)) if @server.team %>&nbsp;</dd>
+  <dd><%= @server.os.name if @server.os %>&nbsp;</dd>
+  <dd><%= @server.use.name if @server.use %>&nbsp;</dd>
+  <dd><%= link_to( @server.datacenter.name, datacenter_path(@server.datacenter_id)) if @server.datacenter %>&nbsp;</dd>
+  <dd><%= link_to( @server.support.name, support_path(@server.support_id)) if @server.support %>&nbsp;</dd>
+
+git add .
+git commit -m "Change of display of Servers"
+
+==================================================================================
+
+rails g bootstrap:themed applications -f
+
+vim app/views/applications/index.html.erb 
+# Remove columns for id and other attributes not required in the index list
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:added_on) %></th>
+      <th><%= model_class.human_attribute_name(:ticket) %></th>
+      <th><%= model_class.human_attribute_name(:team_id) %></th>	  
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+	  
+        <td><%= link_to application.id, application_path(application) %></td>
+        <td><%= application.added_on %></td>
+        <td><%= application.ticket %></td>
+        <td><%= application.team_id %></td>
+        <td><%=l application.created_at %></td>		
+
+# Add links to associated objects
+        <td><%= link_to application.name, application_path(application) %></td>
+        <td><%= link_to( "URL", application.url ) if application.url %></td>
+        <td><%= link_to( application.server.name, server_path(application.server) ) if application.server %></td>
+        <td><%= application.environment.name if application.environment %></td>
+        <td><%= link_to( application.business.name, business_path(application.business) ) if application.business %></td>
+		
+vim app/views/applications/_form.html.erb 
+# Replace the input to display for associations
+  <%= f.association :team %>
+  <%= f.association :server %>
+  <%= f.association :environment %>
+  <%= f.association :business %>
+
+
+vim app/views/applications/show.html.erb 
+# Change way it is displayed
+  <dd><%= link_to( @application.url, @application.url ) if @application.url %>&nbsp;</dd>
+  <dd><%= link_to( @application.team.name, team_path(@application.team) ) if @application.team %></dd>
+  <dd><%= link_to( @application.server.name, server_path(@application.server) ) if @application.server %></dd>
+  <dd><%= @application.environment.name if @application.environment %></dd>
+  <dd><%= link_to( @application.business.name, business_path(@application.business) ) if @application.business %></dd>
+  
+git add .
+git commit -m "Change of display of Applications"
+
+==================================================================================
+
+rails g bootstrap:themed businesses -f
+
+vim app/views/businesses/index.html.erb 
+# Remove columns for id and other attributes not required in the index list
+      <th><%= model_class.human_attribute_name(:id) %></th>
+	  <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>	  
+	  
+        <td><%= link_to business.id, business_path(business) %></td>
+        <td><%= business.description %></td>		
+        <td><%=l business.created_at %></td>		
+
+# Add links to associated objects
+        <td><%= link_to business.name, business_path(business) %></td>
+		
+vim app/views/businesses/_form.html.erb 
+# Replace the input to display for associations
+
+vim app/controllers/businesses_controller.rb
+# Getting the applications belongs to this business in the show method
+    @applications = Application.find_all_by_business_id(@business.id)
+
+vim app/views/businesses/show.html.erb 
+# Change way it is displayed
+  <dd><%= @business.description %>&nbsp;</dd>
+  <dt><strong>Applications:</strong></dt>
+  <dd>
+    <ul>
+      <% if @applications != nil %>
+        <% @applications.each do |app| %>
+        <li><%= link_to app.name, application_path(app)  %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </dd>
+</dl>
+
+  
+git add .
+git commit -m "Change of display of Businesses"
+
+==================================================================================
+
+rails g bootstrap:themed datacenters -f
+rails g bootstrap:themed employees -f
+rails g bootstrap:themed supports -f
+rails g bootstrap:themed teams -f
+
+vim app/views/datacenters/index.html.erb 
+vim app/views/employees/index.html.erb 
+vim app/views/supports/index.html.erb 
+vim app/views/teams/index.html.erb 
+# Remove columns for id and other attributes not required in the index list
+      <th><%= model_class.human_attribute_name(:id) %></th>
+	
+vim app/controllers/businesses_controller.rb
+# Getting the applications belongs to this business in the show method
+    @applications = Application.find_all_by_business_id(@business.id)
+
+vim app/views/businesses/show.html.erb 
+# Change way it is displayed
+  <dt><strong>_________:</strong></dt>
+  <dd>
+    <ul>
+      <% if @_________ != nil %>
+        <% @_________.each do |XXX| %>
+        <li><%= link_to XXX.name, __________path(XXX)  %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </dd>
+
+git add .
+git commit -m "Change of display of Datacenters, Employees, Supports and Teams"
 git push -u origin master
